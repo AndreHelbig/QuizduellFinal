@@ -1,7 +1,7 @@
 FROM java:8
 
-
-ADD target /usr/src/target
+COPY QuizduellFinalServer-1.0-jar-with-dependencies.jar /etc/QuizduellFinalServer-1.0-jar-with-dependencies.jar
+#ADD target /usr/src/target
 #ADD ./Shared /usr/src/Shared
 #WORKDIR /usr/src
 #RUN javac Server/ServerKnot.java
@@ -13,6 +13,6 @@ ADD target /usr/src/target
 
 
 
-ENTRYPOINT ["java","-jar","/usr/src/target/quizduell-1.0-jar-with-dependencies.jar"]
+ENTRYPOINT ["java","-jar","/etc/QuizduellFinalServer-1.0-jar-with-dependencies.jar"]
 
 EXPOSE 8081
