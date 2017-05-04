@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+      
+  server_node_1:
+    container_name: server_node_1
+    hostname: server_node_1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - 8081
+    ports:
+      - "8082:8081"
+      
+  server_node_2:
+    container_name: server_node_2
+    hostname: server_node_2
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - 8081
+    ports:
+      - "8083:8081"
+
+  server_node_3:
+    container_name: server_node_3
+    hostname: server_node_3
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - 8081
+    ports:
+      - "8084:8081"
+      
+  haproxy_server:
+    container_name: haproxy_server
+    hostname: haproxy_server
+    image: haproxy:latest
+    volumes:
+      - ./haproxy_server:/usr/local/etc/haproxy
+    expose:
+      - 8081
+      - 1936
+    ports:
+      - "8081:8081"
+      - "1936:1936"
+    links:
+      - server_node_1:server_node_1
+      - server_node_2:server_node_2
+      - server_node_3:server_node_3
+    depends_on:
+     - server_node_1
+     - server_node_2
+     - server_node_3

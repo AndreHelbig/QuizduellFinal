@@ -22,7 +22,7 @@ public class QuizduellClient {
 
         try {
             Scanner userIn = new Scanner(System.in);
-            server = new Socket("localhost", 4041);
+            server = new Socket("localhost", 8081);
             Scanner in = new Scanner(server.getInputStream());
             PrintWriter out = new PrintWriter(server.getOutputStream(), true);
 

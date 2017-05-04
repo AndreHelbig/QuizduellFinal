@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class Server implements Runnable {
 
-    private int port = 4041;
+    private int port = 8081;
     private ServerSocket serverSocket = null;
     private boolean isActive = true;
     private Thread thread = null;
