@@ -1,7 +1,56 @@
 version: '3'
 
 services:
-      
+  cassandra1:
+    hostname: cassandra1
+    image: cassandra:latest
+    expose:
+      - 7000
+      - 7001
+      - 7199
+      - 9042
+      - 9160
+    ports:
+      - "17199:7199"
+      - "19042:9042"
+      - "19160:9160"
+  cassandra2:
+    hostname: cassandra2
+    image: cassandra:latest
+    environment:
+      - CASSANDRA_SEEDS=cassandra1
+    links:
+      - cassandra1:cassandra
+    expose:
+      - 7000
+      - 7001
+      - 7199
+      - 9042
+      - 9160
+    ports:
+      - "17200:7199"
+      - "19043:9042"
+      - "19161:9160"
+    depends_on:
+      - cassandra1
+  haproxy_db:
+    hostname: haproxy_db
+    image: haproxy:latest
+    volumes:
+      - ./haproxy_db:/usr/local/etc/haproxy
+    expose:
+      - 9042
+      - 1936
+    ports:
+      - "19044:9042"
+      - "11936:1936"
+    links:
+      - cassandra1:cassandra1
+      - cassandra2:cassandra2
+    depends_on:
+      - cassandra1
+      - cassandra2
+    
   server_node_1:
     container_name: server_node_1
     hostname: server_node_1
